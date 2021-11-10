@@ -6,7 +6,8 @@ import org.openqa.selenium.WebDriver;
 
 public class ResultadosPage extends BasePage
 {
-    private By txtResultado	= By.id("result-stats");
+    private By txtResultado	= By.cssSelector("#__next > div > main > section:nth-child(5) > div.sc-GEbAx.hGlkHc > div > p");
+    private By txtResultPescVazio = By.cssSelector("#__next > div > main > section:nth-child(6) > div:nth-child(1) > div > h1");
 
     public ResultadosPage(WebDriver _browser)
     {
@@ -16,6 +17,18 @@ public class ResultadosPage extends BasePage
     public String verResultadoPesquisa()
     {
         waitElementVisible(txtResultado, 5);
-        return browser.findElement(txtResultado).getText().substring(0,15);
+        return browser.findElement(txtResultado).getText().substring(5,25);
     }
+
+    public String verResultadoCampoVazio(){
+        waitElementVisible(txtResultPescVazio, 5);
+        return browser.findElement(txtResultPescVazio).getText();
+    }
+
+    public String verResultadoPesquisaInvalida(){
+        waitElementVisible(txtResultPescVazio, 5);
+        String str = browser.findElement(txtResultPescVazio).getText();
+        return str.substring(str.length()-32, str.length());
+    }
+
 }

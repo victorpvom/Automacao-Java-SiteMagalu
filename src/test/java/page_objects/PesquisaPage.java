@@ -7,10 +7,11 @@ import org.openqa.selenium.WebDriver;
 
 public class PesquisaPage extends BasePage
 {
-    private String url			= "https://www.google.com.br/";
-    private By inputPesrquisar	= By.xpath("//input[@name='q']");
+    private String url			= "https://www.magazineluiza.com.br/";
+    private By inputPesrquisar	= By.cssSelector("[data-testid='input-search'");
     private By optionsPesrquisa = By.cssSelector("ul[role='listbox'] > li:nth-child(1)");
-    private By btnPesquisar		= By.xpath("(//input[@name='btnK'])[2]");
+    private By btnPesquisar		= By.cssSelector("[data-testid='search-submit'");
+
 
     public PesquisaPage(WebDriver _browser)
     {
@@ -26,13 +27,13 @@ public class PesquisaPage extends BasePage
     {
         waitElementVisible(inputPesrquisar, 5);
         browser.findElement(inputPesrquisar).sendKeys(pesquisa);
-        waitElementVisible(optionsPesrquisa, 5);
-        actions.sendKeys(Keys.ESCAPE).perform();
     }
 
-    public void clickBtnPesquisar()
+    public void clickBtnPesquisar() throws InterruptedException
     {
+        waitElementVisible(btnPesquisar, 5);
         browser.findElement(btnPesquisar).click();
+        Thread.sleep(5000);
     }
 
     public String getUrl()

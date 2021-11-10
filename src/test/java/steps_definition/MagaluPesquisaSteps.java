@@ -8,7 +8,7 @@ import org.junit.Assert;
 import page_objects.PesquisaPage;
 import page_objects.ResultadosPage;
 
-public class GooglePesquisaSteps extends BaseSteps
+public class MagaluPesquisaSteps extends BaseSteps
 {
     /**
      * Paginas necessaria
@@ -36,38 +36,41 @@ public class GooglePesquisaSteps extends BaseSteps
     public void a_plataforma_me_retorna_os_produtos_disponíveis() throws Throwable {
         String txtAssertPage = pageResult.verResultadoPesquisa();
         String MsgExpect = "produtos encontrados";
-        System.out.println(txtAssertPage);
-        System.out.println(MsgExpect);
         Assert.assertTrue(txtAssertPage.equals(MsgExpect));
     }
 
-//    @Entao("^me retorna os resultados indexados$")
-//    public void me_retorna_os_resultados_indexados()
-//    {
-//        String txtAssertPage = pageResult.verResultadoPesquisa();
-//        Assert.assertEquals("Aproximadamente", txtAssertPage);
-//        BaseSteps.screenShotNow();
-//    }
-
-
-
     /**
-     * Cenario: Pesquisa Valida
+     * Cenario: Pesquisa Campo Vazio
      * @pesquisaSuccess
      **/
-//    @Quando("^eu pesquisar sem preencher o assunto$")
-//    public void eu_pesquisar_sem_preencher_o_assunto()
-//    {
-//        pageHome.clickBtnPesquisar();
-//        BaseSteps.screenShotNow();
-//    }
 
-//    @Entao("^continuarei na mesma pagian aguardando um assunto$")
-//    public void continuarei_na_mesma_pagian_aguardando_um_assunto()
-//    {
-//        String expectedPage = pageHome.getUrl();
-//        String currentPage = browser.getCurrentUrl();
-//        Assert.assertTrue( expectedPage.equals(currentPage) );
-//    }
+    @Quando("^o usuario busca sem preencher o campo de pesquisa$")
+    public void o_usuario_busca_sem_preencher_o_campo_de_pesquisa() throws Throwable {
+        pageHome.preencherFormPesquisa(" ");
+        pageHome.clickBtnPesquisar();
+    }
+
+    @Entao("^o sistema me informa que nao encontrou resultados$")
+    public void o_sistema_me_informa_que_nao_encontrou_resultados() {
+        String MensagemNaTela = pageResult.verResultadoCampoVazio();
+        String MensagemEsperada = "Sua busca não encontrou resultado algum :(";
+        Assert.assertTrue(MensagemNaTela.equals(MensagemEsperada));
+    }
+
+    /**
+     * Cenario: Busca produto inválida
+     * @pesquisaInvalida
+     **/
+
+    @Quando("^eu pesquisar por um produto invalido$")
+    public void eu_pesquisar_por_um_produto_invalido() throws Throwable {
+        pageHome.preencherFormPesquisa("oiudsiudvpisudo");
+        pageHome.clickBtnPesquisar();
+    }
+
+    @Entao("^o sistema me informa que nao encontrou resultados para a busca$")
+    public void o_sistema_me_informa_que_nao_encontrou_resultados_para_a_busca() throws Throwable {
+        System.out.println(pageResult.verResultadoPesquisaInvalida());
+    }
 
 }
